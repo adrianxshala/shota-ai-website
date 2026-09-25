@@ -137,6 +137,32 @@
     inset 0 -1px 1px rgba(255, 255, 255, 0.15),
     inset 0 0 0 1px rgba(255, 244, 228, 0.3);
 }
+/* the badge catches a glint of light now and then */
+.badge {
+  position: relative;
+  overflow: hidden;
+}
+.badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.75) 50%, transparent 70%);
+  transform: translateX(-130%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .badge::after {
+    animation: badge-glint 3.6s ease-in-out 1.6s infinite;
+  }
+}
+@keyframes badge-glint {
+  0% {
+    transform: translateX(-130%);
+  }
+  35%,
+  100% {
+    transform: translateX(130%);
+  }
+}
 .tagline {
   margin: 12px 0 0;
   max-width: 34ch;

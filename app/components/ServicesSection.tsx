@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SplitChars, SplitWords, idx, stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./ServicesSection.module.css";
 
@@ -84,33 +85,38 @@ export default function ServicesSection() {
   return (
     <section id="services" className={s.section} aria-labelledby="services-title">
       <div className={s.inner}>
-        <header className={`${s.head} ${s.reveal}`}>
-          <p className={s.eyebrow}>What we do</p>
+        <header className={s.head} data-anim="head">
+          <p className={s.eyebrow} data-part="eyebrow">
+            What we do
+          </p>
           <h2 id="services-title" className={s.title}>
-            Websites and AI, built for your business.
+            <SplitChars text="Websites and AI, built for your business." />
           </h2>
           <p className={s.lead}>
-            From a clean one-page site to a complete premium presence with photo and video —
-            plus AI-powered applications when you need more.
+            <SplitWords text="From a clean one-page site to a complete premium presence with photo and video — plus AI-powered applications when you need more." />
           </p>
         </header>
 
         <ul className={styles.grid}>
-          {SERVICES.map((svc) => (
+          {SERVICES.map((svc, i) => (
             <li
               key={svc.title}
-              className={`${s.glass} ${s.lift} ${styles.card} ${s.reveal}`}
+              className={`${s.glass} ${s.lift} ${styles.card}`}
+              data-anim="card"
+              style={stagger(i % 3)}
             >
-              <span className={`${styles.iconWrap} ${svc.accent ? styles.iconAccent : ""}`}>
+              <span className={`${styles.iconWrap} ${svc.accent ? styles.iconAccent : ""}`} data-pop>
                 <svg className={s.icon} viewBox="0 0 24 24" aria-hidden="true">
                   {svc.icon}
                 </svg>
               </span>
               <h3 className={styles.name}>{svc.title}</h3>
               <p className={styles.text}>{svc.text}</p>
-              <ul className={styles.tags} aria-label={`${svc.title} includes`}>
-                {svc.tags.map((t) => (
-                  <li key={t}>{t}</li>
+              <ul className={styles.tags} aria-label={`${svc.title} includes`} data-stagger>
+                {svc.tags.map((t, j) => (
+                  <li key={t} style={idx(j)}>
+                    {t}
+                  </li>
                 ))}
               </ul>
             </li>

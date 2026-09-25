@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./SiteFooter.module.css";
 import { LOCATIONS, PHONE_DISPLAY, PHONE_HREF, whatsappLink } from "./contact";
@@ -18,10 +19,10 @@ export default function SiteFooter() {
 
   return (
     <footer className={styles.footer}>
-      <span className={styles.rule} aria-hidden="true" />
+      <span className={styles.rule} aria-hidden="true" data-anim="line" />
       <div className={styles.inner}>
         <div className={styles.top}>
-          <div className={styles.brand}>
+          <div className={styles.brand} data-anim="item" style={stagger(0)}>
             <a href="#" className={styles.logo} aria-label="Shota AI — back to top">
               <Image src="/logo%202.png" alt="" width={48} height={48} />
               <span className={styles.wordmark}>SHOTA AI</span>
@@ -44,7 +45,7 @@ export default function SiteFooter() {
             </a>
           </div>
 
-          <nav className={styles.col} aria-labelledby="footer-nav">
+          <nav className={styles.col} aria-labelledby="footer-nav" data-anim="item" style={stagger(1)}>
             <h2 id="footer-nav" className={styles.colTitle}>
               Explore
             </h2>
@@ -59,7 +60,7 @@ export default function SiteFooter() {
             </ul>
           </nav>
 
-          <div className={styles.col}>
+          <div className={styles.col} data-anim="item" style={stagger(2)}>
             <h2 className={styles.colTitle}>Packages</h2>
             <ul>
               {PACKAGES.map((p) => (
@@ -72,7 +73,7 @@ export default function SiteFooter() {
             </ul>
           </div>
 
-          <div className={styles.col}>
+          <div className={styles.col} data-anim="item" style={stagger(3)}>
             <h2 className={styles.colTitle}>Contact</h2>
             <ul>
               <li>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import LiquidLens from "./LiquidLens";
+import ScrollAnimator from "./ScrollAnimator";
 import s from "./shared.module.css";
 import styles from "./AmbientStage.module.css";
 
@@ -136,6 +137,7 @@ export default function AmbientStage({ children }: { children: ReactNode }) {
         <span className={styles.seam} />
       </div>
       <div className={styles.content}>{children}</div>
+      <ScrollAnimator />
     </div>
   );
 }

@@ -71,7 +71,7 @@
     rgba(var(--blue), 0) 100%
   );
   animation-name: float-a;
-  animation-duration: 11s;
+  animation-duration: 6s;
 }
 .orbGold {
   right: 0;
@@ -85,7 +85,7 @@
     rgba(var(--gold), 0) 100%
   );
   animation-name: float-b;
-  animation-duration: 13s;
+  animation-duration: 7s;
 }
 .orbDeep {
   top: 30%;
@@ -99,7 +99,7 @@
     rgba(var(--navy), 0) 100%
   );
   animation-name: float-c;
-  animation-duration: 16s;
+  animation-duration: 8.5s;
 }
 .orbCyan {
   top: 58%;
@@ -113,8 +113,8 @@
     rgba(var(--cyan), 0) 100%
   );
   animation-name: float-b;
-  animation-duration: 9s;
-  animation-delay: -4s;
+  animation-duration: 5s;
+  animation-delay: -2s;
 }
 .orbAmber {
   top: 10%;
@@ -128,8 +128,8 @@
     rgba(var(--gold), 0) 100%
   );
   animation-name: float-a;
-  animation-duration: 12s;
-  animation-delay: -6s;
+  animation-duration: 6.5s;
+  animation-delay: -3s;
 }
 
 /* light-trail arcs: thin conic rings, like the footage's fibre strands */
@@ -142,7 +142,7 @@
   will-change: transform;
   -webkit-mask: radial-gradient(closest-side, transparent 92%, rgba(0, 0, 0, 0.25) 95.5%, #000 97.4%, #000 98.4%, rgba(0, 0, 0, 0.25) 99.3%, transparent 100%);
   mask: radial-gradient(closest-side, transparent 92%, rgba(0, 0, 0, 0.25) 95.5%, #000 97.4%, #000 98.4%, rgba(0, 0, 0, 0.25) 99.3%, transparent 100%);
-  animation: spin 32s linear infinite paused;
+  animation: spin 16s linear infinite paused;
 }
 .arcA {
   top: 38%;
@@ -178,7 +178,7 @@
     rgba(var(--gold), 0) 280deg,
     transparent 360deg
   );
-  animation-duration: 44s;
+  animation-duration: 22s;
   animation-direction: reverse;
 }
 
@@ -243,10 +243,10 @@
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(30vw, 16vh, 0) scale(1.2);
+    transform: translate3d(38vw, 20vh, 0) scale(1.25);
   }
   100% {
-    transform: translate3d(10vw, 38vh, 0) scale(0.9);
+    transform: translate3d(12vw, 46vh, 0) scale(0.88);
   }
 }
 @keyframes float-b {
@@ -254,10 +254,10 @@
     transform: translate3d(0, 0, 0) scale(1.05);
   }
   50% {
-    transform: translate3d(-28vw, -18vh, 0) scale(0.88);
+    transform: translate3d(-36vw, -22vh, 0) scale(0.85);
   }
   100% {
-    transform: translate3d(-8vw, -38vh, 0) scale(1.18);
+    transform: translate3d(-10vw, -46vh, 0) scale(1.22);
   }
 }
 @keyframes float-c {
@@ -265,10 +265,10 @@
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(-20vw, 14vh, 0) scale(1.15);
+    transform: translate3d(-26vw, 18vh, 0) scale(1.2);
   }
   100% {
-    transform: translate3d(16vw, -12vh, 0) scale(0.92);
+    transform: translate3d(20vw, -16vh, 0) scale(0.9);
   }
 }
 @keyframes spin {
@@ -306,14 +306,14 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .orb {
-    animation: breathe 7s ease-in-out infinite;
+    animation: breathe 4.5s ease-in-out infinite;
   }
   .orbGold,
   .orbCyan {
     animation-delay: -3.5s;
   }
   .arc {
-    animation: breathe 9s ease-in-out infinite;
+    animation: breathe 6s ease-in-out infinite;
   }
   .spot {
     display: none;

@@ -1,4 +1,5 @@
 import FeatureListSync from "./FeatureListSync";
+import { SplitChars, SplitWords, idx, stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./PricingSection.module.css";
 
@@ -135,22 +136,26 @@ export default function PricingSection() {
     <section id="packages" className={styles.section} aria-labelledby="packages-title">
       <FeatureListSync rootId="packages" />
 
-      <header className={styles.head}>
-        <p className={styles.eyebrow}>Packages</p>
+      <header className={styles.head} data-anim="head">
+        <p className={styles.eyebrow} data-part="eyebrow">
+          Packages
+        </p>
         <h2 id="packages-title" className={styles.title}>
-          Find the right fit for your business.
+          <SplitChars text="Find the right fit for your business." />
         </h2>
         <p className={styles.lead}>
-          Pay once for your website. Hosting is billed monthly after the initial period.
+          <SplitWords text="Pay once for your website. Hosting is billed monthly after the initial period." />
         </p>
       </header>
 
       <div className={styles.grid}>
-        {PLANS.map((plan) => (
+        {PLANS.map((plan, i) => (
           <article
             key={plan.id}
             className={`${s.glass} ${s.lift} ${styles.card} ${plan.featured ? `${s.glassAccent} ${styles.featured}` : ""}`}
             aria-labelledby={`plan-${plan.id}`}
+            data-anim="card"
+            style={stagger(i)}
           >
             {/* row 1 — name + description */}
             <div className={styles.intro}>
@@ -165,7 +170,7 @@ export default function PricingSection() {
 
             {/* row 2 — one-time price */}
             <div className={styles.price}>
-              <p className={styles.amount}>
+              <p className={styles.amount} data-part="price">
                 <span className={styles.currency}>€</span>
                 {plan.price}
               </p>
@@ -186,9 +191,9 @@ export default function PricingSection() {
             </p>
 
             {/* row 4 — key benefits */}
-            <ul className={styles.highlights} aria-label={`${plan.name} key benefits`}>
-              {plan.highlights.map((f) => (
-                <li key={f}>
+            <ul className={styles.highlights} aria-label={`${plan.name} key benefits`} data-stagger>
+              {plan.highlights.map((f, j) => (
+                <li key={f} style={idx(j)}>
                   <Check />
                   <span>{f}</span>
                 </li>

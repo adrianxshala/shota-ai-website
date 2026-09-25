@@ -1,3 +1,4 @@
+import { SplitChars, SplitWords, stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./FaqSection.module.css";
 import { PHONE_DISPLAY, PHONE_HREF, whatsappLink } from "./contact";
@@ -37,17 +38,28 @@ export default function FaqSection() {
   return (
     <section id="faq" className={s.section} aria-labelledby="faq-title">
       <div className={`${s.inner} ${styles.layout}`}>
-        <header className={`${s.head} ${s.headStart} ${styles.intro} ${s.reveal}`}>
-          <p className={s.eyebrow}>FAQ</p>
+        <header className={`${s.head} ${s.headStart} ${styles.intro}`} data-anim="head">
+          <p className={s.eyebrow} data-part="eyebrow">
+            FAQ
+          </p>
           <h2 id="faq-title" className={s.title}>
-            Questions, answered.
+            <SplitChars text="Questions, answered." />
           </h2>
-          <p className={s.lead}>Everything you need to know before choosing a package.</p>
+          <p className={s.lead}>
+            <SplitWords text="Everything you need to know before choosing a package." />
+          </p>
         </header>
 
         <div className={styles.list}>
           {FAQS.map((f, i) => (
-            <details key={f.q} className={styles.item} name="faq" open={i === 0}>
+            <details
+              key={f.q}
+              className={styles.item}
+              name="faq"
+              open={i === 0}
+              data-anim="item"
+              style={stagger(i)}
+            >
               <summary className={styles.q}>
                 <span>{f.q}</span>
                 <span className={styles.toggle} aria-hidden="true" />
@@ -57,7 +69,7 @@ export default function FaqSection() {
           ))}
         </div>
 
-        <aside className={`${s.glass} ${styles.help}`} aria-label="More questions">
+        <aside className={`${s.glass} ${styles.help}`} aria-label="More questions" data-anim="card" style={stagger(2)}>
             <p className={styles.helpTitle}>Still have a question?</p>
             <p className={styles.helpText}>
               Message us on WhatsApp or call{" "}

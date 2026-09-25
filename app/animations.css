@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Scroll entrances for every section after the hero.
+   ScrollAnimator sets html[data-anim-ready] once it mounts and adds data-in
+   to each [data-anim] element as it enters the viewport (once).
+   Everything here animates opacity / transform / filter / clip-path only,
+   with fill-mode "backwards" so nothing is left holding a filter afterwards.
+   Reduced motion: none of this applies — content is simply shown.
+   ========================================================================== */
+
+.anim-word {
+  display: inline-block;
+  white-space: nowrap;
+  perspective: 700px;
+}
+.anim-char,
+.anim-w {
+  display: inline-block;
+  transform-origin: 50% 80%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    --anim-ease: cubic-bezier(0.2, 0.9, 0.25, 1);
+    --anim-pop: cubic-bezier(0.34, 1.56, 0.64, 1); /* soft overshoot = "cute" */
+  }
+
+  /* ---------------------------------------------------- hidden "before" */
+  html[data-anim-ready] [data-anim]:not([data-in]) .anim-char,
+  html[data-anim-ready] [data-anim]:not([data-in]) .anim-w,
+  html[data-anim-ready] [data-anim]:not([data-in]) [data-part],
+  html[data-anim-ready] [data-anim]:not([data-in]) [data-pop],
+  html[data-anim-ready] [data-anim]:not([data-in]) [data-stagger] > *,
+  html[data-anim-ready] [data-anim="card"]:not([data-in]),
+  html[data-anim-ready] [data-anim="item"]:not([data-in]),
+  html[data-anim-ready] [data-anim="line"]:not([data-in]) {
+    opacity: 0;
+  }
+
+  /* ---------------------------------------------------- headings */
+
+  /* eyebrow: opens from the centre like a light line, letters settle */
+  [data-anim][data-in] [data-part="eyebrow"] {
+    animation: eyebrow-in 1s var(--anim-ease) 0.05s backwards;
+  }
+  @keyframes eyebrow-in {
+    from {
+      opacity: 0;
+      letter-spacing: 0.9em;
+      filter: blur(8px);
+      clip-path: inset(0 50% 0 50%);
+    }
+  }
+
+  /* title: letter by letter — rises out of blur, turning up from below */
+  [data-anim][data-in] .anim-char {
+    animation: char-in 0.9s var(--anim-ease) backwards;
+    animation-delay: calc(0.18s + var(--i) * 24ms);
+  }
+  @keyframes char-in {
+    from {
+      opacity: 0;
+      filter: blur(12px);
+      transform: translateY(0.5em) rotateX(-70deg) scale(0.9);
+    }
+    60% {
+      filter: blur(0);
+    }
+  }
+
+  /* lead: word by word */
+  [data-anim][data-in] .anim-w {
+    animation: word-in 0.8s var(--anim-ease) backwards;
+    animation-delay: calc(0.55s + var(--i) * 38ms);
+  }
+  @keyframes word-in {
+    from {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(14px);
+    }
+  }
+
+  /* extra heading parts (actions, notes) fade up after the text */
+  [data-anim][data-in] [data-part="after"] {
+    animation: word-in 0.8s var(--anim-ease) 0.9s backwards;
+  }
+
+  /* ---------------------------------------------------- cards */
+
+  [data-anim="card"][data-in] {
+    animation: card-in 1.05s var(--anim-ease) backwards;
+    animation-delay: calc(var(--d, 0) * 110ms);
+  }
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      filter: blur(16px);
+      transform: perspective(1000px) translateY(56px) rotateX(12deg) scale(0.95);
+    }
+    70% {
+      filter: blur(0);
+    }
+  }
+
+  /* icon inside a card: pops in with a little overshoot, then floats */
+  [data-anim][data-in] [data-pop] {
+    animation:
+      pop-in 0.8s var(--anim-pop) backwards,
+      bob 5s ease-in-out infinite;
+    animation-delay:
+      calc(var(--d, 0) * 110ms + 0.35s),
+      calc(var(--d, 0) * 300ms + 1.3s);
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      filter: blur(6px);
+      transform: scale(0.3) rotate(-25deg);
+    }
+  }
+  @keyframes bob {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -4px;
+    }
+  }
+
+  /* price inside a card: rolls up out of a mask */
+  [data-anim][data-in] [data-part="price"] {
+    animation: price-in 0.9s var(--anim-ease) backwards;
+    animation-delay: calc(var(--d, 0) * 110ms + 0.3s);
+  }
+  @keyframes price-in {
+    from {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(40%);
+      clip-path: inset(0 0 100% 0);
+    }
+  }
+
+  /* list items inside a card / group: slide in one after another */
+  [data-anim][data-in] [data-stagger] > * {
+    animation: slide-in 0.7s var(--anim-ease) backwards;
+    animation-delay: calc(var(--d, 0) * 110ms + 0.45s + var(--i, 0) * 60ms);
+  }
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translateX(-16px);
+    }
+  }
+
+  /* ---------------------------------------------------- items & lines */
+
+  [data-anim="item"][data-in] {
+    animation: item-in 0.85s var(--anim-ease) backwards;
+    animation-delay: calc(var(--d, 0) * 90ms + 0.1s);
+  }
+  @keyframes item-in {
+    from {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(28px) scale(0.98);
+    }
+  }
+
+  [data-anim="line"][data-in] {
+    animation: line-in 1.4s var(--anim-ease) backwards;
+  }
+  @keyframes line-in {
+    from {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+  }
+}

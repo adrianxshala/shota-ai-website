@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useRef, useState, type FormEvent } from "react";
+import { SplitChars, SplitWords, stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./ContactSection.module.css";
 import { LOCATIONS, PHONE_DISPLAY, PHONE_HREF, whatsappLink } from "./contact";
@@ -61,19 +62,20 @@ export default function ContactSection() {
     <section id="contact" className={s.section} aria-labelledby="contact-title">
       <div className={`${s.inner} ${styles.layout}`}>
         <div className={styles.intro}>
-          <header className={`${s.head} ${s.headStart} ${styles.head} ${s.reveal}`}>
-            <p className={s.eyebrow}>Contact</p>
+          <header className={`${s.head} ${s.headStart} ${styles.head}`} data-anim="head">
+            <p className={s.eyebrow} data-part="eyebrow">
+              Contact
+            </p>
             <h2 id="contact-title" className={s.title}>
-              Let’s talk about your project.
+              <SplitChars text="Let’s talk about your project." />
             </h2>
             <p className={s.lead}>
-              Tell us about your business and we’ll help you choose the right package — or plan
-              an AI application with you.
+              <SplitWords text="Tell us about your business and we’ll help you choose the right package — or plan an AI application with you." />
             </p>
           </header>
 
           <ul className={styles.channels}>
-            <li>
+            <li data-anim="item" style={stagger(0)}>
               <a
                 className={`${s.glass} ${s.lift} ${styles.channel}`}
                 href={whatsappLink("Hello! I'd like to talk about my project.")}
@@ -96,7 +98,7 @@ export default function ContactSection() {
                 <span className={s.srOnly}> — opens in a new tab</span>
               </a>
             </li>
-            <li>
+            <li data-anim="item" style={stagger(1)}>
               <a className={`${s.glass} ${s.lift} ${styles.channel}`} href={PHONE_HREF}>
                 <span className={styles.channelIcon}>
                   <svg className={s.icon} viewBox="0 0 24 24" aria-hidden="true">
@@ -112,7 +114,7 @@ export default function ContactSection() {
                 </svg>
               </a>
             </li>
-            <li>
+            <li data-anim="item" style={stagger(2)}>
               <div className={`${s.glass} ${styles.channel}`}>
                 <span className={styles.channelIcon}>
                   <svg className={s.icon} viewBox="0 0 24 24" aria-hidden="true">
@@ -131,6 +133,8 @@ export default function ContactSection() {
 
         <form
           className={`${s.glass} ${styles.form}`}
+          data-anim="card"
+          style={stagger(1)}
           onSubmit={onSubmit}
           noValidate
           aria-labelledby={`${uid}-form-title`}

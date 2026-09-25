@@ -1,3 +1,4 @@
+import { SplitChars, SplitWords, stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./WhySection.module.css";
 import { whatsappLink } from "./contact";
@@ -33,15 +34,17 @@ export default function WhySection() {
   return (
     <section id="why" className={s.section} aria-labelledby="why-title">
       <div className={`${s.inner} ${styles.layout}`}>
-        <header className={`${s.head} ${s.headStart} ${styles.intro} ${s.reveal}`}>
-          <p className={s.eyebrow}>Why Shota AI</p>
+        <header className={`${s.head} ${s.headStart} ${styles.intro}`} data-anim="head">
+          <p className={s.eyebrow} data-part="eyebrow">
+            Why Shota AI
+          </p>
           <h2 id="why-title" className={s.title}>
-            A professional presence, without the guesswork.
+            <SplitChars text="A professional presence, without the guesswork." />
           </h2>
           <p className={s.lead}>
-            Transparent packages, the essentials included, and a team you can reach directly.
+            <SplitWords text="Transparent packages, the essentials included, and a team you can reach directly." />
           </p>
-          <div className={styles.actions}>
+          <div className={styles.actions} data-part="after">
             <a
               className={s.btnPrimary}
               href={whatsappLink("Hello! I'd like to talk about a website for my business.")}
@@ -62,7 +65,7 @@ export default function WhySection() {
 
         <ol className={styles.list}>
           {REASONS.map((r, i) => (
-            <li key={r.title} className={`${styles.item} ${s.reveal}`}>
+            <li key={r.title} className={styles.item} data-anim="item" style={stagger(i % 2)}>
               <span className={styles.num} aria-hidden="true">
                 {String(i + 1).padStart(2, "0")}
               </span>
