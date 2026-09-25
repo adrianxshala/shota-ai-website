@@ -1,0 +1,180 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "intro list"
+    "help  list";
+  column-gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.intro {
+  grid-area: intro;
+  margin-bottom: 0;
+}
+.list {
+  grid-area: list;
+}
+.help {
+  grid-area: help;
+  margin-top: 36px;
+  padding: 24px;
+}
+.helpTitle {
+  margin: 0;
+  font-size: 17px;
+  font-variation-settings: "wght" 560;
+}
+.helpText {
+  margin: 8px 0 20px;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--sub);
+  font-variation-settings: "wght" 446;
+}
+
+/* ------------------------------------------------------------ accordion */
+
+.list {
+  border-top: 1px solid var(--line);
+}
+.item {
+  border-bottom: 1px solid var(--line);
+}
+.q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 64px;
+  padding: 18px 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: 17.5px;
+  line-height: 1.4;
+  color: var(--text);
+  font-variation-settings: "wght" 506;
+  border-radius: 8px;
+  transition: color 0.2s ease;
+}
+.q::-webkit-details-marker {
+  display: none;
+}
+.q:hover,
+.item[open] .q {
+  color: var(--ink);
+}
+.q:focus-visible {
+  outline: 2px solid #9fe0ff;
+  outline-offset: 4px;
+}
+
+/* plus → minus, drawn in CSS */
+.toggle {
+  position: relative;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background:
+    radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05) 45%, transparent 70%),
+    rgba(255, 255, 255, 0.04);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 6px 14px -6px rgba(1, 4, 10, 0.6);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.toggle::before,
+.toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 11px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  translate: -50% -50%;
+  transition: rotate 0.3s var(--ease);
+}
+.toggle::after {
+  rotate: 90deg;
+}
+.item[open] .toggle {
+  background:
+    radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.06) 45%, transparent 70%),
+    linear-gradient(135deg, rgba(var(--gold), 0.34), rgba(var(--blue), 0.3));
+  box-shadow:
+    inset 0 1px 1px rgba(255, 250, 240, 0.7),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.12),
+    inset 0 0 0 1px rgba(255, 244, 228, 0.28),
+    0 6px 18px -6px rgba(var(--gold), 0.45);
+}
+.item[open] .toggle::after {
+  rotate: 0deg;
+}
+
+.a {
+  margin: 0;
+  padding: 0 56px 24px 0;
+  max-width: 64ch;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--sub);
+  font-variation-settings: "wght" 446;
+}
+
+@supports selector(::details-content) {
+  .item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.35s var(--ease),
+      content-visibility 0.35s allow-discrete;
+  }
+  .item[open]::details-content {
+    block-size: auto;
+    block-size: calc-size(auto, size);
+  }
+}
+
+@media (max-width: 959px) {
+  /* stacked: intro, questions, then the help card */
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas:
+      "intro"
+      "list"
+      "help";
+  }
+  .intro {
+    margin-bottom: 36px;
+  }
+}
+
+@media (max-width: 599px) {
+  .q {
+    font-size: 16.5px;
+  }
+  .a {
+    padding-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .q,
+  .toggle,
+  .toggle::before,
+  .toggle::after {
+    transition: none;
+  }
+  .item::details-content {
+    transition: none;
+  }
+}

@@ -1,0 +1,216 @@
+.footer {
+  --ink: #ffffff;
+  --text: #dfe7f1;
+  --sub: #a7afbd;
+  --faint: #8a93a3;
+  --line: rgba(196, 214, 232, 0.14);
+  --gold: 255, 222, 170;
+  --blue: 150, 196, 244;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(64px, 8vw, 96px) clamp(16px, 4vw, 48px) calc(28px + env(safe-area-inset-bottom));
+  color: var(--ink);
+  font-family: var(--font-sora), system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /* sits on the shared AmbientStage; only deepen the very bottom */
+  background: linear-gradient(180deg, rgba(2, 6, 15, 0) 0%, rgba(2, 6, 15, 0.55) 100%);
+}
+
+/* the hero's light, reduced to one horizon line */
+.rule {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(1240px, 92%);
+  height: 1px;
+  translate: -50% 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--gold), 0.7) 25%,
+    rgba(255, 252, 246, 0.9) 50%,
+    rgba(var(--blue), 0.7) 75%,
+    transparent 100%
+  );
+}
+.rule::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 40%;
+  height: 60px;
+  translate: -50% -50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(var(--blue), 0.14), transparent 70%);
+  pointer-events: none;
+}
+
+.inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 2fr) minmax(0, 3fr) minmax(0, 2.4fr);
+  gap: clamp(32px, 4vw, 56px);
+  padding-bottom: clamp(48px, 6vw, 72px);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 8px;
+}
+.logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.wordmark {
+  font-size: 18px;
+  letter-spacing: 0.16em;
+  font-variation-settings: "wght" 560;
+}
+.tagline {
+  margin: 0 0 6px;
+  max-width: 36ch;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--sub);
+  font-variation-settings: "wght" 446;
+}
+
+.col ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.colTitle {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  font-variation-settings: "wght" 560;
+}
+.navLink,
+.plain {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  font-size: 15px;
+  color: var(--sub);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: "wght" 446;
+}
+.navLink {
+  border-radius: 6px;
+  transition: color 0.2s ease;
+}
+.navLink:hover {
+  color: var(--ink);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--faint);
+  font-variation-settings: "wght" 446;
+}
+.bottom p {
+  margin: 0;
+}
+.toTop {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--sub);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: color 0.2s ease;
+}
+.toTop svg {
+  width: 11px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.25s var(--ease);
+}
+.toTop:hover {
+  color: var(--ink);
+}
+.toTop:hover svg {
+  transform: translateY(-2px);
+}
+
+.logo:focus-visible,
+.navLink:focus-visible,
+.toTop:focus-visible {
+  outline: 2px solid #9fe0ff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 959px) {
+  .top {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 599px) {
+  .top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 20px;
+  }
+  .brand > a:last-child {
+    width: 100%;
+  }
+  .navLink,
+  .plain {
+    min-height: 44px;
+  }
+  .bottom {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navLink,
+  .toTop,
+  .toTop svg {
+    transition: none;
+  }
+  .toTop:hover svg {
+    transform: none;
+  }
+}

@@ -1,0 +1,324 @@
+/* One continuous light field behind every section after the hero.
+   Palette taken from the footage: electric blue strands, warm gold strands,
+   deep navy volume. Everything animates transform/opacity only. */
+
+.wrap {
+  --blue: 64, 140, 255;
+  --blue-soft: 150, 196, 244;
+  --gold: 255, 184, 96;
+  --gold-soft: 255, 222, 170;
+  --navy: 18, 36, 104;
+  --cyan: 92, 206, 255;
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip; /* clip, not hidden — keeps the stage sticky */
+  background: #02060f;
+}
+
+/* the track spans the whole wrapper; the stage inside it sticks to the viewport */
+.track {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ------------------------------------------------------------ light field */
+
+.field {
+  position: absolute;
+  inset: -12%;
+  will-change: transform;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-play-state: paused;
+}
+.wrap[data-live] .orb,
+.wrap[data-live] .arc {
+  animation-play-state: running;
+}
+
+.orbBlue {
+  top: 4%;
+  left: 2%;
+  width: 62vmax;
+  aspect-ratio: 1.25;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--blue), 0.52),
+    rgba(var(--blue), 0.22) 45%,
+    rgba(var(--blue), 0) 100%
+  );
+  animation-name: float-a;
+  animation-duration: 11s;
+}
+.orbGold {
+  right: 0;
+  bottom: 6%;
+  width: 54vmax;
+  aspect-ratio: 1.35;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--gold), 0.4),
+    rgba(var(--gold), 0.15) 48%,
+    rgba(var(--gold), 0) 100%
+  );
+  animation-name: float-b;
+  animation-duration: 13s;
+}
+.orbDeep {
+  top: 30%;
+  left: 28%;
+  width: 70vmax;
+  aspect-ratio: 1.6;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--navy), 0.75),
+    rgba(var(--navy), 0.3) 55%,
+    rgba(var(--navy), 0) 100%
+  );
+  animation-name: float-c;
+  animation-duration: 16s;
+}
+.orbCyan {
+  top: 58%;
+  left: -4%;
+  width: 34vmax;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--cyan), 0.28),
+    rgba(var(--cyan), 0.1) 50%,
+    rgba(var(--cyan), 0) 100%
+  );
+  animation-name: float-b;
+  animation-duration: 9s;
+  animation-delay: -4s;
+}
+.orbAmber {
+  top: 10%;
+  right: 12%;
+  width: 30vmax;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--gold-soft), 0.24),
+    rgba(var(--gold), 0.08) 50%,
+    rgba(var(--gold), 0) 100%
+  );
+  animation-name: float-a;
+  animation-duration: 12s;
+  animation-delay: -6s;
+}
+
+/* light-trail arcs: thin conic rings, like the footage's fibre strands */
+.arc {
+  position: absolute;
+  left: 50%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% 0;
+  will-change: transform;
+  -webkit-mask: radial-gradient(closest-side, transparent 92%, rgba(0, 0, 0, 0.25) 95.5%, #000 97.4%, #000 98.4%, rgba(0, 0, 0, 0.25) 99.3%, transparent 100%);
+  mask: radial-gradient(closest-side, transparent 92%, rgba(0, 0, 0, 0.25) 95.5%, #000 97.4%, #000 98.4%, rgba(0, 0, 0, 0.25) 99.3%, transparent 100%);
+  animation: spin 32s linear infinite paused;
+}
+.arcA {
+  top: 38%;
+  width: 150vmax;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(var(--gold), 0) 20deg,
+    rgba(var(--gold), 0.55) 58deg,
+    rgba(var(--gold-soft), 0.8) 70deg,
+    rgba(var(--gold), 0) 110deg,
+    transparent 180deg,
+    rgba(var(--blue), 0) 200deg,
+    rgba(var(--blue), 0.6) 245deg,
+    rgba(var(--blue-soft), 0.85) 258deg,
+    rgba(var(--blue), 0) 300deg,
+    transparent 360deg
+  );
+}
+.arcB {
+  top: 48%;
+  width: 118vmax;
+  opacity: 0.6;
+  background: conic-gradient(
+    from 140deg,
+    transparent 0deg,
+    rgba(var(--blue), 0.5) 40deg,
+    rgba(var(--cyan), 0.7) 52deg,
+    rgba(var(--blue), 0) 90deg,
+    transparent 190deg,
+    rgba(var(--gold), 0.45) 230deg,
+    rgba(var(--gold-soft), 0.65) 242deg,
+    rgba(var(--gold), 0) 280deg,
+    transparent 360deg
+  );
+  animation-duration: 44s;
+  animation-direction: reverse;
+}
+
+/* ------------------------------------------------------------ interaction */
+
+.spot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 46vmax;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--gold-soft), 0.2),
+    rgba(var(--blue), 0.16) 40%,
+    rgba(var(--blue), 0) 100%
+  );
+  transform: translate3d(50vw, 40vh, 0) translate(-50%, -50%);
+  transition: opacity 0.6s ease;
+  will-change: transform;
+}
+.wrap[data-pointer] .spot {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------ finish */
+
+/* keeps edges deep and the centre readable */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(130% 100% at 50% 50%, transparent 45%, rgba(2, 6, 15, 0.55) 100%),
+    linear-gradient(180deg, rgba(2, 6, 15, 0.12), rgba(2, 6, 15, 0) 50%, rgba(2, 6, 15, 0.22));
+}
+
+/* film grain — static, stops gradients from banding */
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* hand-off from the hero: start from the hero's own navy, then open up */
+.seam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70vh;
+  background: linear-gradient(180deg, #02060f 0%, rgba(2, 6, 15, 0.7) 30%, rgba(2, 6, 15, 0) 100%);
+}
+
+/* ------------------------------------------------------------ motion */
+
+@keyframes float-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(30vw, 16vh, 0) scale(1.2);
+  }
+  100% {
+    transform: translate3d(10vw, 38vh, 0) scale(0.9);
+  }
+}
+@keyframes float-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-28vw, -18vh, 0) scale(0.88);
+  }
+  100% {
+    transform: translate3d(-8vw, -38vh, 0) scale(1.18);
+  }
+}
+@keyframes float-c {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-20vw, 14vh, 0) scale(1.15);
+  }
+  100% {
+    transform: translate3d(16vw, -12vh, 0) scale(0.92);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* phones: fewer layers, same mood */
+@media (max-width: 767px) {
+  .orbCyan,
+  .orbAmber,
+  .arcB {
+    display: none;
+  }
+  .orbBlue {
+    width: 90vmax;
+  }
+  .orbGold {
+    width: 80vmax;
+  }
+}
+
+/* Reduced motion (e.g. Windows "Animation effects" off): no travel, no
+   rotation, no parallax — the light keeps breathing in brightness instead,
+   so the background still feels alive without moving anything. */
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: breathe 7s ease-in-out infinite;
+  }
+  .orbGold,
+  .orbCyan {
+    animation-delay: -3.5s;
+  }
+  .arc {
+    animation: breathe 9s ease-in-out infinite;
+  }
+  .spot {
+    display: none;
+  }
+  .field {
+    transform: none !important;
+  }
+}

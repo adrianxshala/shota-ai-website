@@ -1,0 +1,87 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.intro {
+  position: sticky;
+  top: 96px;
+  margin-bottom: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 clamp(24px, 3vw, 44px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  padding: 28px 0 30px;
+  border-top: 1px solid var(--line);
+}
+/* gold → blue hairline on top of each item, echoing the light trails */
+.item::before {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 1px;
+  margin-top: -29px;
+  margin-bottom: 28px;
+  background: linear-gradient(90deg, rgba(var(--gold), 0.9), rgba(var(--blue), 0.9));
+}
+
+.num {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(var(--gold), 0.9);
+  font-variation-settings: "wght" 534;
+}
+.name {
+  margin: 12px 0 0;
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 400;
+  font-variation-settings: "wght" 560;
+}
+.text {
+  margin: 10px 0 0;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--sub);
+  font-variation-settings: "wght" 446;
+}
+
+@media (max-width: 959px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .intro {
+    position: static;
+  }
+}
+
+@media (max-width: 599px) {
+  .list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .actions > a {
+    flex: 1 1 100%;
+  }
+  .text {
+    font-size: 16px;
+  }
+}

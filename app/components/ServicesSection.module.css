@@ -1,0 +1,99 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 28px 28px;
+}
+
+/* glass "bubble" icon */
+.iconWrap {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  color: #cfe3ff;
+  background:
+    radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.06) 45%, transparent 70%),
+    linear-gradient(160deg, rgba(var(--blue), 0.28), rgba(var(--blue), 0.08));
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 6px rgba(var(--blue), 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 8px 20px -6px rgba(var(--blue), 0.45);
+}
+.iconAccent {
+  color: #ffe6bf;
+  background:
+    radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.06) 45%, transparent 70%),
+    linear-gradient(160deg, rgba(var(--gold), 0.34), rgba(var(--gold), 0.08));
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 6px rgba(var(--gold), 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 8px 20px -6px rgba(var(--gold), 0.4);
+}
+
+.name {
+  margin: 22px 0 0;
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 400;
+  font-variation-settings: "wght" 560;
+  color: var(--ink);
+}
+.text {
+  margin: 10px 0 0;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--sub);
+  font-variation-settings: "wght" 446;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: auto 0 0;
+  padding: 22px 0 0;
+  list-style: none;
+}
+/* glass pills — highlight only, no nested blur (keeps it cheap) */
+.tags li {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  color: #eef3f9;
+  font-variation-settings: "wght" 497;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .card {
+    padding: 24px 22px;
+  }
+  .text {
+    font-size: 16px;
+  }
+}
