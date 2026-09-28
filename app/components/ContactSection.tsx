@@ -4,19 +4,15 @@ import { useId, useRef, useState, type FormEvent } from "react";
 import { SplitChars, SplitWords, stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./ContactSection.module.css";
-import { LOCATIONS, PHONE_DISPLAY, PHONE_HREF, whatsappLink } from "./contact";
+import { PHONE_DISPLAY, PHONE_HREF, whatsappLink } from "./contact";
+import { fill } from "./i18n";
+import type { Dictionary } from "../[lang]/dictionaries";
 
-const INTERESTS = [
-  "Not sure yet",
-  "START package",
-  "BUSINESS package",
-  "PREMIUM BUSINESS package",
-  "AI application",
-];
+type Props = { t: Dictionary["contact"]; common: Dictionary["common"] };
 
 type Errors = { name?: string; message?: string };
 
-export default function ContactSection() {
+export default function ContactSection({ t, common }: Props) {
   const uid = useId();
   const nameRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
@@ -39,8 +35,8 @@ export default function ContactSection() {
     const message = String(data.get("message") ?? "").trim();
 
     const next: Errors = {};
-    if (!name) next.name = "Please enter your name.";
-    if (!message) next.message = "Please tell us a little about what you need.";
+    if (!name) next.name = t.errorName;
+    if (!message) next.message = t.errorMessage;
     setErrors(next);
     if (next.name || next.message) {
       setStatus("");
@@ -49,13 +45,13 @@ export default function ContactSection() {
     }
 
     const lines = [
-      `Hello! My name is ${name}${business ? ` from ${business}` : ""}.`,
-      `I'm interested in: ${interest}.`,
+      business ? fill(t.greetingBusiness, { name, business }) : fill(t.greeting, { name }),
+      fill(t.interestLine, { interest }),
       "",
       message,
     ];
     window.open(whatsappLink(lines.join("\n")), "_blank", "noopener,noreferrer");
-    setStatus("WhatsApp opened in a new tab with your message — just press send.");
+    setStatus(t.sent);
   }
 
   return (
@@ -64,21 +60,38 @@ export default function ContactSection() {
         <div className={styles.intro}>
           <header className={`${s.head} ${s.headStart} ${styles.head}`} data-anim="head">
             <p className={s.eyebrow} data-part="eyebrow">
-              Contact
+              {t.eyebrow}
             </p>
             <h2 id="contact-title" className={s.title}>
-              <SplitChars text="Let’s talk about your project." />
+              <SplitChars text={t.title} />
             </h2>
             <p className={s.lead}>
-              <SplitWords text="Tell us about your business and we’ll help you choose the right package — or plan an AI application with you." />
+              <SplitWords text={t.lead} />
             </p>
+            <p className={styles.description}>{t.description}</p>
+            <p className={styles.statement}>{t.statement}</p>
+            <div className={styles.invitation}>
+              <p>{t.invitation}</p>
+              <a
+                className={s.btnPrimary}
+                href={whatsappLink(t.whatsappMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>{t.talk}</span>
+                <svg className={s.arrow} viewBox="0 0 16 11" aria-hidden="true">
+                  <path d="M0 5.5 H14.6 M10.3 1.2 L14.9 5.5 L10.3 9.8" />
+                </svg>
+                <span className={s.srOnly}>{common.newTab}</span>
+              </a>
+            </div>
           </header>
 
           <ul className={styles.channels}>
             <li data-anim="item" style={stagger(0)}>
               <a
                 className={`${s.glass} ${s.lift} ${styles.channel}`}
-                href={whatsappLink("Hello! I'd like to talk about my project.")}
+                href={whatsappLink(t.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -95,7 +108,7 @@ export default function ContactSection() {
                 <svg className={`${s.arrow} ${styles.channelArrow}`} viewBox="0 0 16 11" aria-hidden="true">
                   <path d="M0 5.5 H14.6 M10.3 1.2 L14.9 5.5 L10.3 9.8" />
                 </svg>
-                <span className={s.srOnly}> — opens in a new tab</span>
+                <span className={s.srOnly}>{common.newTab}</span>
               </a>
             </li>
             <li data-anim="item" style={stagger(1)}>
@@ -106,7 +119,7 @@ export default function ContactSection() {
                   </svg>
                 </span>
                 <span className={styles.channelBody}>
-                  <span className={styles.channelLabel}>Call us</span>
+                  <span className={styles.channelLabel}>{t.callUs}</span>
                   <span className={styles.channelValue}>{PHONE_DISPLAY}</span>
                 </span>
                 <svg className={`${s.arrow} ${styles.channelArrow}`} viewBox="0 0 16 11" aria-hidden="true">
@@ -123,8 +136,8 @@ export default function ContactSection() {
                   </svg>
                 </span>
                 <span className={styles.channelBody}>
-                  <span className={styles.channelLabel}>Based in</span>
-                  <span className={styles.channelValue}>{LOCATIONS.join(" · ")}</span>
+                  <span className={styles.channelLabel}>{t.basedIn}</span>
+                  <span className={styles.channelValue}>{common.locations.join(" · ")}</span>
                 </span>
               </div>
             </li>
@@ -140,18 +153,18 @@ export default function ContactSection() {
           aria-labelledby={`${uid}-form-title`}
         >
           <p id={`${uid}-form-title`} className={styles.formTitle}>
-            Send us a message
+            {t.formTitle}
           </p>
           <p className={styles.formNote}>
-            Your message opens in WhatsApp, ready to send. Fields marked{" "}
+            {t.formNote}{" "}
             <span aria-hidden="true">*</span>
-            <span className={s.srOnly}>with an asterisk</span> are required.
+            <span className={s.srOnly}>{t.formNoteSr}</span> {t.formNoteEnd}
           </p>
 
           <div className={styles.row}>
             <div className={styles.field}>
               <label htmlFor={ids.name} className={styles.label}>
-                Name <span aria-hidden="true">*</span>
+                {t.name} <span aria-hidden="true">*</span>
               </label>
               <input
                 ref={nameRef}
@@ -176,7 +189,7 @@ export default function ContactSection() {
 
             <div className={styles.field}>
               <label htmlFor={ids.business} className={styles.label}>
-                Business name <span className={styles.optional}>(optional)</span>
+                {t.business} <span className={styles.optional}>{t.optional}</span>
               </label>
               <input
                 id={ids.business}
@@ -190,11 +203,11 @@ export default function ContactSection() {
 
           <div className={styles.field}>
             <label htmlFor={ids.interest} className={styles.label}>
-              I’m interested in
+              {t.interest}
             </label>
             <div className={styles.selectWrap}>
-              <select id={ids.interest} name="interest" className={styles.input} defaultValue={INTERESTS[0]}>
-                {INTERESTS.map((i) => (
+              <select id={ids.interest} name="interest" className={styles.input} defaultValue={t.interests[0]}>
+                {t.interests.map((i) => (
                   <option key={i} value={i}>
                     {i}
                   </option>
@@ -208,7 +221,7 @@ export default function ContactSection() {
 
           <div className={styles.field}>
             <label htmlFor={ids.message} className={styles.label}>
-              Message <span aria-hidden="true">*</span>
+              {t.message} <span aria-hidden="true">*</span>
             </label>
             <textarea
               ref={messageRef}
@@ -233,7 +246,7 @@ export default function ContactSection() {
           </div>
 
           <button type="submit" className={`${s.btnPrimary} ${styles.submit}`}>
-            <span>Send via WhatsApp</span>
+            <span>{t.submit}</span>
             <svg className={s.arrow} viewBox="0 0 16 11" aria-hidden="true">
               <path d="M0 5.5 H14.6 M10.3 1.2 L14.9 5.5 L10.3 9.8" />
             </svg>

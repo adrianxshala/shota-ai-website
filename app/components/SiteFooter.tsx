@@ -2,19 +2,18 @@ import Image from "next/image";
 import { stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./SiteFooter.module.css";
-import { LOCATIONS, PHONE_DISPLAY, PHONE_HREF, whatsappLink } from "./contact";
+import { PHONE_DISPLAY, PHONE_HREF, whatsappLink } from "./contact";
+import type { Dictionary } from "../[lang]/dictionaries";
+import { PrivacyPreferencesButton } from "./CookieConsent";
 
-const NAV = [
-  { href: "#services", label: "What we do" },
-  { href: "#packages", label: "Packages" },
-  { href: "#why", label: "Why Shota AI" },
-  { href: "#faq", label: "FAQ" },
-  { href: "#contact", label: "Contact" },
-];
+/** Same order as the dictionary's `footer.nav` labels. */
+const NAV = ["#services", "#packages", "#why", "#faq", "#contact"];
 
-const PACKAGES = ["START — €149", "BUSINESS — €349", "PREMIUM BUSINESS — €699"];
+const PACKAGES = ["START", "BUSINESS", "PREMIUM BUSINESS"];
 
-export default function SiteFooter() {
+type Props = { t: Dictionary["footer"]; common: Dictionary["common"] };
+
+export default function SiteFooter({ t, common }: Props) {
   const year = new Date().getFullYear();
 
   return (
@@ -23,37 +22,36 @@ export default function SiteFooter() {
       <div className={styles.inner}>
         <div className={styles.top}>
           <div className={styles.brand} data-anim="item" style={stagger(0)}>
-            <a href="#" className={styles.logo} aria-label="Shota AI — back to top">
+            <a href="#" className={styles.logo} aria-label={t.backToTopLabel}>
               <Image src="/logo%202.png" alt="" width={48} height={48} />
               <span className={styles.wordmark}>SHOTA AI</span>
             </a>
             <p className={styles.tagline}>
-              Websites and AI-powered applications for businesses. Based in Prishtina and
-              Stuttgart.
+              {t.tagline}
             </p>
             <a
               className={s.btnPrimary}
-              href={whatsappLink("Hello! I'd like to start a project with Shota AI.")}
+              href={whatsappLink(t.startMessage)}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span>Start a project</span>
+              <span>{t.start}</span>
               <svg className={s.arrow} viewBox="0 0 16 11" aria-hidden="true">
                 <path d="M0 5.5 H14.6 M10.3 1.2 L14.9 5.5 L10.3 9.8" />
               </svg>
-              <span className={s.srOnly}> on WhatsApp — opens in a new tab</span>
+              <span className={s.srOnly}>{t.startSr}</span>
             </a>
           </div>
 
           <nav className={styles.col} aria-labelledby="footer-nav" data-anim="item" style={stagger(1)}>
             <h2 id="footer-nav" className={styles.colTitle}>
-              Explore
+              {t.explore}
             </h2>
             <ul>
-              {NAV.map((n) => (
-                <li key={n.href}>
-                  <a className={styles.navLink} href={n.href}>
-                    {n.label}
+              {NAV.map((href, i) => (
+                <li key={href}>
+                  <a className={styles.navLink} href={href}>
+                    {t.nav[i]}
                   </a>
                 </li>
               ))}
@@ -61,7 +59,7 @@ export default function SiteFooter() {
           </nav>
 
           <div className={styles.col} data-anim="item" style={stagger(2)}>
-            <h2 className={styles.colTitle}>Packages</h2>
+            <h2 className={styles.colTitle}>{t.packages}</h2>
             <ul>
               {PACKAGES.map((p) => (
                 <li key={p}>
@@ -74,7 +72,7 @@ export default function SiteFooter() {
           </div>
 
           <div className={styles.col} data-anim="item" style={stagger(3)}>
-            <h2 className={styles.colTitle}>Contact</h2>
+            <h2 className={styles.colTitle}>{t.contact}</h2>
             <ul>
               <li>
                 <a className={styles.navLink} href={PHONE_HREF}>
@@ -84,22 +82,23 @@ export default function SiteFooter() {
               <li>
                 <a
                   className={styles.navLink}
-                  href={whatsappLink("Hello!")}
+                  href={whatsappLink(t.hello)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  WhatsApp<span className={s.srOnly}> — opens in a new tab</span>
+                  WhatsApp<span className={s.srOnly}>{common.newTab}</span>
                 </a>
               </li>
-              <li className={styles.plain}>{LOCATIONS.join(" · ")}</li>
+              <li className={styles.plain}>{common.locations.join(" · ")}</li>
             </ul>
           </div>
         </div>
 
         <div className={styles.bottom}>
-          <p>© {year} Shota AI. All rights reserved.</p>
+          <PrivacyPreferencesButton />
+          <p>© {year} Shota AI. {t.rights}</p>
           <a className={styles.toTop} href="#">
-            Back to top
+            {t.backToTop}
             <svg viewBox="0 0 11 14" aria-hidden="true">
               <path d="M5.5 13 V1.4 M1.2 5.6 L5.5 1.2 L9.8 5.6" />
             </svg>

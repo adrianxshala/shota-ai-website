@@ -211,8 +211,9 @@
   mask-composite: exclude;
 }
 
-/* nav pill ("Contact us") + mobile menu button: same liquid material */
+/* nav pill ("Contact us"), language switch + mobile menu button: same liquid material */
 .pill,
+.lang,
 .burger {
   background:
     radial-gradient(120% 95% at 28% -25%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05) 45%, transparent 70%),
@@ -238,12 +239,49 @@
 @media (prefers-reduced-transparency: reduce) {
   .cta,
   .pill,
+  .lang,
   .burger,
   :global(html[data-liquid-lens]) .cta {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background-color: rgba(20, 30, 52, 0.95);
   }
+}
+
+/* language switch — two segments, the current language lit */
+.lang {
+  display: flex;
+  align-items: stretch;
+  border-radius: 999px;
+  padding: 3px;
+}
+.lang a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  border-radius: 999px;
+  letter-spacing: 0.08em;
+  font-variation-settings: "wght" 560;
+  color: var(--navdim);
+  opacity: 0.62;
+  transition:
+    opacity 0.2s ease,
+    background-color 0.2s ease;
+}
+.lang a[aria-current] {
+  opacity: 1;
+  color: var(--ink);
+  background-color: rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+@media (hover: hover) {
+  .lang a:not([aria-current]):hover {
+    opacity: 1;
+  }
+}
+.lang a:focus-visible {
+  outline-offset: 1px;
 }
 
 /* per-element variable weights (fractional, requires the variable axis) */
@@ -345,6 +383,9 @@
   }
   .shell:not([data-entered]) .pill {
     animation: en-settle 0.6s var(--ent-soft) 0.4s backwards;
+  }
+  .shell:not([data-entered]) .lang {
+    animation: en-settle 0.6s var(--ent-soft) 0.45s backwards;
   }
   .shell:not([data-entered]) .burger {
     animation: en-lift 0.6s var(--ent-soft) 0.4s backwards;
@@ -493,6 +534,16 @@
     top: calc(var(--u) * 43.5);
     width: calc(var(--u) * 144);
     height: calc(var(--u) * 44);
+  }
+  .lang {
+    left: calc(var(--u) * 1347.5);
+    top: calc(var(--u) * 43.5);
+    width: calc(var(--u) * 92);
+    height: calc(var(--u) * 44);
+    padding: calc(var(--u) * 4);
+  }
+  .lang a {
+    font-size: calc(var(--u) * 12.5);
   }
   .cta {
     left: calc(var(--u) * 625.8);
@@ -718,6 +769,17 @@
     letter-spacing: 0.06em;
   }
 
+  .lang {
+    margin-left: auto;
+    height: calc(var(--c) * 30);
+    padding: calc(var(--c) * 3);
+  }
+  .lang a {
+    min-width: calc(var(--c) * 34);
+    padding: 0 calc(var(--c) * 8);
+    font-size: calc(var(--c) * 12);
+  }
+
   /* burger — pure CSS, checkbox-driven */
   .navtoggle {
     position: absolute;
@@ -785,18 +847,55 @@
     width: min(calc(var(--c) * 268), 78vw);
     padding: calc(var(--c) * 12);
     border-radius: calc(var(--c) * 20);
+    /* liquid glass — frosted, colour-boosted, warm top-left / cool bottom glow */
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.045) 100%),
-      linear-gradient(90deg, rgba(255, 226, 178, 0.06) 0%, rgba(150, 196, 244, 0.06) 100%),
-      linear-gradient(180deg, rgba(6, 12, 22, 0.6) 0%, rgba(6, 12, 22, 0.7) 100%);
-    -webkit-backdrop-filter: blur(var(--blur)) saturate(0.45);
-    backdrop-filter: blur(var(--blur)) saturate(0.45);
-    box-shadow: 0 calc(var(--c) * 14) calc(var(--c) * 38) rgba(2, 6, 14, 0.45);
+      radial-gradient(140% 70% at 0% 0%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04) 34%, transparent 58%),
+      radial-gradient(90% 60% at 100% 112%, rgba(255, 222, 170, 0.16), transparent 62%),
+      radial-gradient(80% 70% at -12% 100%, rgba(150, 196, 244, 0.18), transparent 60%),
+      rgba(8, 15, 32, 0.55);
+    -webkit-backdrop-filter: blur(22px) saturate(1.9) brightness(0.85);
+    backdrop-filter: blur(22px) saturate(1.9) brightness(0.85);
+    box-shadow:
+      0 calc(var(--c) * 26) calc(var(--c) * 60) calc(var(--c) * -14) rgba(1, 4, 10, 0.75),
+      inset 0 1px 1px rgba(255, 255, 255, 0.5),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.1),
+      inset 0 22px 32px -22px rgba(255, 255, 255, 0.2),
+      inset 0 -28px 40px -28px rgba(150, 196, 244, 0.32);
+    text-shadow: 0 1px 12px rgba(2, 6, 15, 0.45);
     opacity: 0;
     transform: translateY(calc(var(--c) * -8)) scale(0.985);
     transform-origin: 100% 0;
     pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  /* specular rim, masked pseudo-element (not a real border) */
+  .navpanel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.2px;
+    pointer-events: none;
+    background: linear-gradient(
+      150deg,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(255, 255, 255, 0.28) 14%,
+      rgba(255, 255, 255, 0.05) 36%,
+      rgba(255, 255, 255, 0.02) 62%,
+      rgba(255, 222, 170, 0.4) 88%,
+      rgba(255, 255, 255, 0.6) 100%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .navpanel {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      background: rgba(12, 22, 40, 0.97);
+    }
   }
   .navtoggle:checked ~ .navpanel {
     opacity: 1;
@@ -938,6 +1037,13 @@
       width: calc(var(--c) * 46);
       height: calc(var(--c) * 33);
       position: relative;
+    }
+    .lang {
+      height: calc(var(--c) * 33);
+    }
+    .lang a {
+      min-width: max(40px, calc(var(--c) * 38));
+      font-size: calc(var(--c) * 13);
     }
     .burger::after {
       content: "";
@@ -1110,6 +1216,14 @@
     .burger {
       width: calc(var(--c) * 60);
       height: calc(var(--c) * 44);
+    }
+    .lang {
+      height: calc(var(--c) * 44);
+      padding: calc(var(--c) * 4);
+    }
+    .lang a {
+      min-width: calc(var(--c) * 50);
+      font-size: calc(var(--c) * 16);
     }
     .burger svg {
       width: calc(var(--c) * 27);

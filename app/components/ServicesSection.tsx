@@ -2,20 +2,16 @@ import type { ReactNode } from "react";
 import { SplitChars, SplitWords, idx, stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./ServicesSection.module.css";
+import type { Dictionary } from "../[lang]/dictionaries";
 
-type Service = {
-  title: string;
-  text: string;
-  tags: string[];
+/** Icons in the same order as the dictionary's `services.items`. */
+type ServiceIcon = {
   icon: ReactNode;
   accent?: boolean;
 };
 
-const SERVICES: Service[] = [
+const ICONS: ServiceIcon[] = [
   {
-    title: "Business websites",
-    text: "One-page and multi-page websites that present your services, pricing, photos and contact details clearly.",
-    tags: ["One-page", "Multi-page", "Gallery"],
     icon: (
       <>
         <rect x="3" y="4" width="18" height="14" rx="2.5" />
@@ -24,9 +20,6 @@ const SERVICES: Service[] = [
     ),
   },
   {
-    title: "AI applications",
-    text: "AI-powered applications designed and built around the way your business works.",
-    tags: ["Design", "Development"],
     accent: true,
     icon: (
       <>
@@ -36,9 +29,6 @@ const SERVICES: Service[] = [
     ),
   },
   {
-    title: "Custom design",
-    text: "A design made for your brand, with a professional site structure — included in BUSINESS and PREMIUM BUSINESS.",
-    tags: ["Custom design", "Site structure"],
     icon: (
       <>
         <path d="M4 20 L8.5 19 L19.2 8.3 A2.1 2.1 0 0 0 16.2 5.3 L5.5 16 Z" />
@@ -47,9 +37,6 @@ const SERVICES: Service[] = [
     ),
   },
   {
-    title: "Get found on Google",
-    text: "Basic Google SEO and Google Maps integration help customers find your business and reach you.",
-    tags: ["Basic SEO", "Google Maps"],
     icon: (
       <>
         <path d="M12 21 C12 21 5 14.6 5 9.6 A7 7 0 0 1 19 9.6 C19 14.6 12 21 12 21 Z" />
@@ -58,9 +45,6 @@ const SERVICES: Service[] = [
     ),
   },
   {
-    title: "Domain, hosting & SSL",
-    text: "Your domain, hosting and SSL are set up for you, with WhatsApp integration built into the site.",
-    tags: ["Domain", "Hosting", "SSL", "WhatsApp"],
     icon: (
       <>
         <path d="M12 3 L19.5 6 V11.5 C19.5 16 16.3 19.6 12 21 C7.7 19.6 4.5 16 4.5 11.5 V6 Z" />
@@ -69,9 +53,6 @@ const SERVICES: Service[] = [
     ),
   },
   {
-    title: "Photo & video",
-    text: "Professional photography and video, with a visit to your business and visual materials made for your website.",
-    tags: ["Photography", "Video", "On-site visit"],
     icon: (
       <>
         <rect x="3" y="7" width="13" height="11" rx="2.5" />
@@ -81,38 +62,38 @@ const SERVICES: Service[] = [
   },
 ];
 
-export default function ServicesSection() {
+export default function ServicesSection({ t }: { t: Dictionary["services"] }) {
   return (
     <section id="services" className={s.section} aria-labelledby="services-title">
       <div className={s.inner}>
         <header className={s.head} data-anim="head">
           <p className={s.eyebrow} data-part="eyebrow">
-            What we do
+            {t.eyebrow}
           </p>
           <h2 id="services-title" className={s.title}>
-            <SplitChars text="Websites and AI, built for your business." />
+            <SplitChars text={t.title} />
           </h2>
           <p className={s.lead}>
-            <SplitWords text="From a clean one-page site to a complete premium presence with photo and video — plus AI-powered applications when you need more." />
+            <SplitWords text={t.lead} />
           </p>
         </header>
 
         <ul className={styles.grid}>
-          {SERVICES.map((svc, i) => (
+          {t.items.map((svc, i) => (
             <li
               key={svc.title}
               className={`${s.glass} ${s.lift} ${styles.card}`}
               data-anim="card"
               style={stagger(i % 3)}
             >
-              <span className={`${styles.iconWrap} ${svc.accent ? styles.iconAccent : ""}`} data-pop>
+              <span className={`${styles.iconWrap} ${ICONS[i].accent ? styles.iconAccent : ""}`} data-pop>
                 <svg className={s.icon} viewBox="0 0 24 24" aria-hidden="true">
-                  {svc.icon}
+                  {ICONS[i].icon}
                 </svg>
               </span>
               <h3 className={styles.name}>{svc.title}</h3>
               <p className={styles.text}>{svc.text}</p>
-              <ul className={styles.tags} aria-label={`${svc.title} includes`} data-stagger>
+              <ul className={styles.tags} aria-label={`${svc.title} ${t.includes}`} data-stagger>
                 {svc.tags.map((t, j) => (
                   <li key={t} style={idx(j)}>
                     {t}

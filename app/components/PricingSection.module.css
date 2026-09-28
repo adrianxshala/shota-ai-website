@@ -1,6 +1,6 @@
 /* Packages — a calm continuation of the hero: near-black navy, restrained
    frosted glass, gold-left / blue-right hairlines, Sora variable weights.
-   Cards use subgrid so name, price, hosting, benefits and CTA align. */
+   Cards use subgrid so name, benefits, features and CTA align. */
 
 .section {
   --ink: #ffffff;
@@ -86,7 +86,7 @@
 .card {
   position: relative;
   display: grid;
-  grid-row: span 6;
+  grid-row: span 4;
   grid-template-rows: subgrid;
   grid-template-columns: minmax(0, 1fr); /* never grow past the track */
   min-width: 0;
@@ -174,92 +174,6 @@
 
 /* ------------------------------------------------------------------ row 2 */
 
-.price {
-  padding-bottom: 16px;
-}
-.amount {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  margin: 0;
-  font-size: clamp(48px, 4.4vw, 58px);
-  line-height: 1;
-  letter-spacing: -0.035em;
-  font-variant-numeric: tabular-nums;
-  font-variation-settings: "wght" 440;
-  color: var(--ink);
-}
-.featured .amount {
-  text-shadow: none; /* transparent gradient text would show the shadow through */
-  background: linear-gradient(100deg, #fff0d6 0%, #ffffff 45%, #dcebfb 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.currency {
-  margin-top: 0.14em;
-  font-size: 0.46em;
-  letter-spacing: 0;
-  font-variation-settings: "wght" 424;
-  color: var(--sub);
-  -webkit-text-fill-color: var(--sub);
-}
-.once {
-  margin: 10px 0 0;
-  font-size: 13.5px;
-  color: var(--sub);
-  font-variation-settings: "wght" 497;
-}
-
-/* ------------------------------------------------------------------ row 3 */
-
-.hosting {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin: 0 0 26px;
-  padding: 12px 14px;
-  border-radius: 16px;
-  background:
-    radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.1), transparent 55%),
-    linear-gradient(160deg, rgba(var(--blue), 0.1), rgba(255, 255, 255, 0.02));
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.35),
-    inset 0 -1px 1px rgba(255, 255, 255, 0.06),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.07);
-  font-size: 14.5px;
-  line-height: 1.45;
-}
-.hostingIcon {
-  flex: none;
-  width: 16px;
-  height: 16px;
-  margin-top: 2px;
-  fill: none;
-  stroke: rgba(var(--blue), 0.95);
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.hostingValue {
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  font-variation-settings: "wght" 560;
-  color: var(--text);
-}
-.hostingLabel {
-  color: var(--sub);
-  font-variation-settings: "wght" 446;
-}
-.hostingNote {
-  display: block;
-  font-size: 13px;
-  color: var(--faint);
-  font-variation-settings: "wght" 446;
-}
-
-/* ------------------------------------------------------------------ row 4 */
-
 .highlights,
 .all {
   display: grid;
@@ -297,7 +211,7 @@
   stroke: rgb(var(--gold));
 }
 
-/* ------------------------------------------------------------------ row 5 */
+/* ------------------------------------------------------------------ row 3 */
 
 .more {
   align-self: start;
@@ -381,7 +295,7 @@
   }
 }
 
-/* ------------------------------------------------------------------ row 6 */
+/* ------------------------------------------------------------------ row 4 */
 
 .button {
   align-self: end;
