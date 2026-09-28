@@ -321,8 +321,7 @@
   font-variation-settings: "wght" 534;
   color: var(--feat);
 }
-.foot1,
-.foot2 {
+.foot1 {
   font-variation-settings: "wght" 521;
   color: var(--foot);
 }
@@ -423,9 +422,6 @@
   }
   .shell:not([data-entered]) .foot1 {
     animation: en-lift 0.6s var(--ent-soft) 1.42s backwards;
-  }
-  .shell:not([data-entered]) .foot2 {
-    animation: en-lift 0.6s var(--ent-soft) 1.48s backwards;
   }
 }
 
@@ -709,15 +705,6 @@
     text-align: center;
     bottom: calc(var(--u) * 101.344);
     transform: translateX(calc(var(--u) * -0.5));
-  }
-  .foot2 {
-    font-size: calc(var(--u) * 16.3);
-    letter-spacing: calc(var(--u) * -0.667);
-    left: 0;
-    right: 0;
-    text-align: center;
-    bottom: calc(var(--u) * 76.344);
-    transform: translateX(calc(var(--u) * -2));
   }
 }
 

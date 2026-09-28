@@ -22,7 +22,7 @@ function saveLocale(l: Locale) {
 export default function HeroSection({ lang, t, common }: Props) {
   const shellRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const foot2Ref = useRef<HTMLSpanElement>(null);
+  const footRef = useRef<HTMLSpanElement>(null);
   const navId = useId();
 
   // (a) The artwork is a video, so reduced motion is honoured by pausing it —
@@ -55,20 +55,20 @@ export default function HeroSection({ lang, t, common }: Props) {
   //     replay it. One self-removing listener + a 4000ms safety net.
   useEffect(() => {
     const shell = shellRef.current;
-    const foot2 = foot2Ref.current;
+    const foot = footRef.current;
     if (!shell) return;
 
     const done = () => {
       window.clearTimeout(timer);
-      foot2?.removeEventListener("animationend", done);
+      foot?.removeEventListener("animationend", done);
       shell.setAttribute("data-entered", "");
     };
     const timer = window.setTimeout(done, 4000);
-    foot2?.addEventListener("animationend", done, { once: true });
+    foot?.addEventListener("animationend", done, { once: true });
 
     return () => {
       window.clearTimeout(timer);
-      foot2?.removeEventListener("animationend", done);
+      foot?.removeEventListener("animationend", done);
     };
   }, []);
 
@@ -197,10 +197,7 @@ export default function HeroSection({ lang, t, common }: Props) {
           width={64}
           height={64}
         />
-        <span className={styles.foot1}>{common.locations.join(" · ")} — +383 43 599 558</span>
-        <span className={styles.foot2} ref={foot2Ref}>
-          2024
-        </span>
+        <span className={styles.foot1} ref={footRef}>{common.locations.join(" · ")} — +383 43 599 558</span>
       </footer>
     </section>
   );
