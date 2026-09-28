@@ -2,56 +2,28 @@ import { SplitChars, SplitWords, stagger } from "./Split";
 import s from "./shared.module.css";
 import styles from "./FaqSection.module.css";
 import { PHONE_DISPLAY, PHONE_HREF, whatsappLink } from "./contact";
+import type { Dictionary } from "../[lang]/dictionaries";
 
-const FAQS = [
-  {
-    q: "Is the package price a one-time payment?",
-    a: "Yes. The package price — €149 for START, €349 for BUSINESS or €699 for PREMIUM BUSINESS — is a one-time payment for your website. Hosting is billed separately each month after the initial period.",
-  },
-  {
-    q: "How much does hosting cost?",
-    a: "Hosting is €5.99/month for START, €13.99/month for BUSINESS and €29.99/month for PREMIUM BUSINESS, after the initial period. Message us on WhatsApp for details about the initial period.",
-  },
-  {
-    q: "What is included in every package?",
-    a: "Every package includes a domain, hosting, SSL, WhatsApp integration, Google Maps, basic SEO and a website that works well on mobile.",
-  },
-  {
-    q: "Which package is right for my business?",
-    a: "START is a one-page website with your business information, services, photos and contact details. BUSINESS is a multi-page website with custom design, a gallery, social media links and support. PREMIUM BUSINESS adds professional photography and video, with a visit to your business.",
-  },
-  {
-    q: "Will my business show up on Google?",
-    a: "Every package includes basic Google SEO and Google Maps integration, which help customers find your business online.",
-  },
-  {
-    q: "Do you also build AI applications?",
-    a: "Yes. Alongside websites, we design and build AI-powered applications. Tell us what you have in mind and we will talk it through with you.",
-  },
-  {
-    q: "How do I get started?",
-    a: "Choose a package and tap its button — WhatsApp opens with your package already mentioned. You can also call us or use the contact form below.",
-  },
-];
+type Props = { t: Dictionary["faq"]; common: Dictionary["common"] };
 
-export default function FaqSection() {
+export default function FaqSection({ t, common }: Props) {
   return (
     <section id="faq" className={s.section} aria-labelledby="faq-title">
       <div className={`${s.inner} ${styles.layout}`}>
         <header className={`${s.head} ${s.headStart} ${styles.intro}`} data-anim="head">
           <p className={s.eyebrow} data-part="eyebrow">
-            FAQ
+            {t.eyebrow}
           </p>
           <h2 id="faq-title" className={s.title}>
-            <SplitChars text="Questions, answered." />
+            <SplitChars text={t.title} />
           </h2>
           <p className={s.lead}>
-            <SplitWords text="Everything you need to know before choosing a package." />
+            <SplitWords text={t.lead} />
           </p>
         </header>
 
         <div className={styles.list}>
-          {FAQS.map((f, i) => (
+          {t.items.map((f, i) => (
             <details
               key={f.q}
               className={styles.item}
@@ -69,10 +41,10 @@ export default function FaqSection() {
           ))}
         </div>
 
-        <aside className={`${s.glass} ${styles.help}`} aria-label="More questions" data-anim="card" style={stagger(2)}>
-            <p className={styles.helpTitle}>Still have a question?</p>
+        <aside className={`${s.glass} ${styles.help}`} aria-label={t.helpLabel} data-anim="card" style={stagger(2)}>
+            <p className={styles.helpTitle}>{t.helpTitle}</p>
             <p className={styles.helpText}>
-              Message us on WhatsApp or call{" "}
+              {t.helpText}{" "}
               <a className={s.link} href={PHONE_HREF}>
                 {PHONE_DISPLAY}
               </a>
@@ -80,15 +52,15 @@ export default function FaqSection() {
             </p>
             <a
               className={s.btn}
-              href={whatsappLink("Hello! I have a question about your packages.")}
+              href={whatsappLink(t.helpMessage)}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span>Ask on WhatsApp</span>
+              <span>{t.helpButton}</span>
               <svg className={s.arrow} viewBox="0 0 16 11" aria-hidden="true">
                 <path d="M0 5.5 H14.6 M10.3 1.2 L14.9 5.5 L10.3 9.8" />
               </svg>
-              <span className={s.srOnly}> — opens in a new tab</span>
+              <span className={s.srOnly}>{common.newTab}</span>
             </a>
         </aside>
       </div>

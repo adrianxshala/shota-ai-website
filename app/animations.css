@@ -128,20 +128,6 @@
     }
   }
 
-  /* price inside a card: rolls up out of a mask */
-  [data-anim][data-in] [data-part="price"] {
-    animation: price-in 0.9s var(--anim-ease) backwards;
-    animation-delay: calc(var(--d, 0) * 110ms + 0.3s);
-  }
-  @keyframes price-in {
-    from {
-      opacity: 0;
-      filter: blur(8px);
-      transform: translateY(40%);
-      clip-path: inset(0 0 100% 0);
-    }
-  }
-
   /* list items inside a card / group: slide in one after another */
   [data-anim][data-in] [data-stagger] > * {
     animation: slide-in 0.7s var(--anim-ease) backwards;

@@ -9,6 +9,38 @@
   margin-bottom: 36px;
 }
 
+.description {
+  margin: 16px 0 0;
+  max-width: 48ch;
+  color: var(--sub);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.statement {
+  margin: 24px 0 0;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.14em;
+  font-variation-settings: "wght" 600;
+}
+
+.invitation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-top: 20px;
+}
+
+.invitation p {
+  margin: 0;
+  color: var(--sub);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 /* ------------------------------------------------------------ channels */
 
 .channels {

@@ -20,6 +20,14 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Privacy controls
+
+The English and Albanian pages include a consent banner and a native modal preferences dialog, reopened from the footer. Choices are stored in the first-party `shota_consent` cookie for 180 days, shared across locale paths, with `SameSite=Lax` and `Secure` on HTTPS. Invalid, expired, or unsupported records require a new choice. If cookies are blocked, choices apply only to the current page session and the visitor is informed.
+
+The existing `NEXT_LOCALE` cookie remembers the visitor's language. No analytics or advertising scripts are currently installed. Before adding any, use `useCookieConsent()` inside the provider and load them only when the corresponding `consent.analytics` or `consent.marketing` flag is true. Integrations must also stop tracking and clean up their own cookies when that flag is revoked. Update the category descriptions in `app/components/privacy-copy.ts` when tools are added, and bump the consent schema version if the purposes change.
+
+Run consent validation tests with `node --test tests/consent.test.mjs` (Node 22.18+). Manually verify first visit, accept/reject, granular save, reload, footer reopening, Escape/focus return, and narrow or short viewports in both locales.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
